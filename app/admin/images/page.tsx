@@ -6,7 +6,7 @@ export default async function ImagesPage() {
 
   const { data: images, count } = await supabase
     .from('images')
-    .select('id, url, is_common_use, is_public, image_description, created_datetime_utc, profile_id', { count: 'exact' })
+    .select('id, url, is_common_use, is_public, image_description, additional_context, created_datetime_utc, profile_id', { count: 'exact' })
     .order('created_datetime_utc', { ascending: false })
     .limit(100)
 
