@@ -2,8 +2,6 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { createSupabaseBrowser } from '@/lib/supabase-browser'
-
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: '\u2302' },
   { href: '/admin/users', label: 'Users', icon: '\u263A' },
@@ -19,12 +17,6 @@ export default function AdminShell({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-
-  async function handleLogout() {
-    const supabase = createSupabaseBrowser()
-    await supabase.auth.signOut()
-    window.location.href = '/login'
-  }
 
   return (
     <div className="min-h-screen flex bg-zinc-50 dark:bg-zinc-950">
@@ -62,12 +54,14 @@ export default function AdminShell({
             <p className="text-sm font-medium text-zinc-900 dark:text-white truncate">{user.name}</p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">{user.email}</p>
           </div>
-          <button
-            onClick={handleLogout}
-            className="w-full text-sm px-3 py-2 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition font-medium"
-          >
-            Sign out
-          </button>
+          <form action="/auth/signout" method="POST">
+            <button
+              type="submit"
+              className="w-full text-sm px-3 py-2 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition font-medium"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
       </aside>
 
